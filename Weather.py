@@ -5,43 +5,51 @@ import tkinter as tk
 
 from matplotlib.pyplot import text
 
-def get_Location(name):
-    geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
-    l = geolocator.geocode(name)
+class WeatherStats:
+    def __init__(self, name):
+        self.City = name
 
-    return l.latitude, l.longitude
+    def get_Location(name):
+        geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
+        l = geolocator.geocode(name)
 
-def get_Data(lat, lon):
-    area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(lat,lon)) # Cambridge
-    data = json.loads(area.read().decode())
+        return l.latitude, l.longitude
 
-    remove = ["dt","id","cod"]
-    for i in list(data):
-        for r in remove:
-            if i == r:
-                del data[i]
+    def get_Data(lat, lon):
+        area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(lat,lon))
+        data = json.loads(area.read().decode())
 
-def get_input(box):
-   string = box.get()
-   print(string)
+        remove = ["dt","id","cod"]
+        for i in list(data):
+            for r in remove:
+                if i == r:
+                    del data[i]
 
-def table():
-    win = tk.Tk()
-    win.geometry("700x300")
+class menu:
+    def get_input(box):
+        string = box.get()
+        print(string)
+        return
 
-    #Creating a text box widget
-    box = tk.Entry(win, width=15,text="City")
-    box.focus_set()
-    box.place(x=0,y=0)
+    def table():
+        win = tk.Tk()
+        win.geometry("700x300")
 
-    #Create a button for Comment
-    comment = tk.Button(win,height=1, width=12, text="Enter", command=lambda: get_input(box))
-    comment.place(x=0,y=20)
+        #Creating a text box widget
+        box = tk.Entry(win, width=15,text="City")
+        box.focus_set()
+        box.place(x=0,y=0)
 
-    win.mainloop()
+        #Create a button for Comment
+        comment = tk.Button(win,height=1, width=12, text="Enter", command = lambda: menu.get_input(box))
+        comment.place(x=0,y=20)
+
+        win.destroy
+        win.mainloop()
 
 def main():
-    table()
+    t = menu()
+    t.table()
 
     # lat, lon = get_Location("Cambridge")
     # get_Data(lat, lon)
