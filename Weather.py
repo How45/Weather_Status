@@ -3,6 +3,8 @@ import urllib.request
 from geopy.geocoders import Nominatim
 import tkinter as tk
 
+from matplotlib.pyplot import text
+
 def get_Location(name):
     geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
     l = geolocator.geocode(name)
@@ -19,30 +21,30 @@ def get_Data(lat, lon):
             if i == r:
                 del data[i]
 
-def get_input(my_text_box):
-   value=my_text_box.get("1.0","end-1c")
-   print(value)
+def get_input(box):
+   string = box.get()
+   print(string)
 
 def table():
     win = tk.Tk()
+    win.geometry("700x300")
 
-    # #Creating a text box widget
-    # box = tk.Entry(win, width=15)
-    # box.place(relx=100,rely=10,anchor="nw")
-    # box.pack()
+    #Creating a text box widget
+    box = tk.Entry(win, width=15,text="City")
+    box.focus_set()
+    box.place(x=0,y=0)
 
     #Create a button for Comment
-    comment = tk.Button(height=1, width=10, text="Comment", command=lambda: get_input(box))
-    comment.pack()
+    comment = tk.Button(win,height=1, width=12, text="Enter", command=lambda: get_input(box))
+    comment.place(x=0,y=20)
 
     win.mainloop()
-
 
 def main():
     table()
 
-    lat, lon = get_Location("Cambridge")
-    get_Data(lat, lon)
+    # lat, lon = get_Location("Cambridge")
+    # get_Data(lat, lon)
 
     # Delete Unessary jason rows
     # Weather is in a list so might need to do a loop for that
