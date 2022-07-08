@@ -3,8 +3,8 @@ import urllib.request
 from geopy.geocoders import Nominatim
 import tkinter as tk
 
-from matplotlib.pyplot import text
 
+#/------------------------/ WeatherStats Class /------------------------/
 class WeatherStats:
     def __init__(self, name):
         self.City = name
@@ -28,41 +28,47 @@ class WeatherStats:
                 if i == r:
                     del data[i]
 
-def toUiTwo(box, win): # This will need to change scence
+#/------------------------/ UI Function /------------------------/
+def toUiTwo(box, ui1): # This will need to change scence
     name = box.get()
-    win.destroy()
+    ui1.destroy()
 
     wStats = WeatherStats(name)
     UI2(wStats)
 
 def UI2(wStats):
-    print("Show UI 2")
-
+    #Class setup
     wStats.form_Data()
     print(wStats.get_Location())
 
-def UI1():
-    win = tk.Tk()
-    win.geometry("700x300")
+    #UI2 Start
+    ui2 = tk.Tk()
+    ui2.geometry("700x300")
+    ui2.title("UI2 Window")
 
-    #Creating a text box widget
-    box = tk.Entry(win, width=15,text="City")
+    ui2.mainloop()
+
+def UI1():
+    #UI1 Start
+    ui1 = tk.Tk()
+    ui1.geometry("700x300")
+    ui1.title("UI1 Window")
+
+    #textBox
+    box = tk.Entry(ui1, width=15,text="City")
     box.focus_set()
     box.place(x=0,y=0)
 
-    #Create a button for Comment
-    comment = tk.Button(win,height=1, width=12, text="Enter", command = lambda: toUiTwo(box,win))
+    #button
+    comment = tk.Button(ui1,height=1, width=12, text="Enter", command = lambda: toUiTwo(box,ui1))
     comment.place(x=0,y=20)
 
-    win.mainloop()
+    ui1.mainloop()
 
+#/------------------------/ Main /------------------------/
 def main():
     UI1()
 
-    # lat, lon = get_Location("Cambridge")
-    # get_Data(lat, lon)
-
-    # Delete Unessary jason rows
     # Weather is in a list so might need to do a loop for that
     # OpenWeatherAPI uses KELVIN
 
