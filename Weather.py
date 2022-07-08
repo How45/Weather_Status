@@ -14,18 +14,18 @@ class WeatherStats:
 
     def form_Data(self):
         geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
-        a = self.area,self.country
-        print(a)
+        place = self.area,self.country
 
-        l = geolocator.geocode(a)
-        #print("Found?")
+
+        l = geolocator.geocode(place)
+        # print("Found?")
 
         self.long = l.longitude
         self.lanti = l.latitude
 
         area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(self.lanti,self.long))
         data = json.loads(area.read().decode())
-        #print(data)
+        # print(data)
 
         remove = ["dt","id","cod"]
         for i in list(data):
@@ -35,7 +35,7 @@ class WeatherStats:
 
         # Setup self_Stuff
 
-#/------------------------/ UI Function /------------------------/
+#/------------------------/ Helper Function /------------------------/
 def toUiTwo(area,country, ui1): # This will need to change scence
     name = area.get()
     area = country.get()
@@ -48,30 +48,43 @@ def toUiOne(ui2):
     ui2.destroy()
     UI1()
 
+def motion(event):
+    x, y = event.x, event.y
+    print('{}, {}'.format(x, y))
+
 #/------------------------/ UI /------------------------/
 def UI2(wStats): # Main Change
-    #Class setup
+    # Class setup
     wStats.form_Data()
 
-    print(wStats.get_Location())
+    # print(wStats.get_Location())
 
     #UI2 Start
     ui2 = tk.Tk()
     ui2.geometry("700x300")
     ui2.title("UI2 Window")
 
-    w = tk.Canvas(ui2, width=250, height=200)
-    w.create_rectangle(0, 0, 100, 100, fill="blue", outline = 'blue')
-    w.pack
+    buttonBackg = tk.Frame(ui2,height=283, width=105,relief=tk.SUNKEN,borderwidth = 1,bg = "#DCDCDC")
+    buttonBackg.place(x=589,y=10)
+    # /---/
+    visualsBackg = tk.Frame(ui2,height=282, width=500,relief=tk.SUNKEN,borderwidth = 1,bg = "#DCDCDC")
+    visualsBackg.place(x=10,y=10)
+
+    #button1
+    button1 = tk.Button(ui2,height=1, width=12, text="button1") # Hight is 1 = 19, width 10 = 79
+    button1.place(x=595,y=20)
+
+    #button2
+    button2 = tk.Button(ui2,height=1, width=12, text="button2")
+    button2.place(x=595,y=57.5)
 
     backwards = tk.Button(ui2,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
-    backwards.place(x=605,y=273)
+    backwards.place(x=595,y=260)
 
+
+    # ui2.bind('<Motion>', motion)
     ui2.mainloop()
 
-# def motion(event):
-#     x, y = event.x, event.y
-#     print('{}, {}'.format(x, y))
 
 def UI1():
     #UI1 Start
