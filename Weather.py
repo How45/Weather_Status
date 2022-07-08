@@ -48,7 +48,7 @@ def toUiOne(ui2):
     ui2.destroy()
     UI1()
 
-def motion(event):
+def posMouse(event):
     x, y = event.x, event.y
     print('{}, {}'.format(x, y))
 
@@ -64,25 +64,25 @@ def UI2(wStats): # Main Change
     ui2.geometry("700x300")
     ui2.title("UI2 Window")
 
-    buttonBackg = tk.Frame(ui2,height=283, width=105,relief=tk.SUNKEN,borderwidth = 1,bg = "#DCDCDC")
-    buttonBackg.place(x=589,y=10)
+    buttonBackg = tk.Frame(ui2,height=283, width=105, relief=tk.SUNKEN, borderwidth = 1, bg = "#DCDCDC")
+    buttonBackg.place(x=589, y=10)
     # /---/
-    visualsBackg = tk.Frame(ui2,height=282, width=500,relief=tk.SUNKEN,borderwidth = 1,bg = "#DCDCDC")
-    visualsBackg.place(x=10,y=10)
+    visualsBackg = tk.Frame(ui2,height=282, width=500, relief=tk.SUNKEN, borderwidth = 1, bg = "#DCDCDC")
+    visualsBackg.place(x=10, y=10)
 
     #button1
     button1 = tk.Button(ui2,height=1, width=12, text="button1") # Hight is 1 = 19, width 10 = 79
-    button1.place(x=595,y=20)
+    button1.place(x=595, y=20)
 
     #button2
     button2 = tk.Button(ui2,height=1, width=12, text="button2")
-    button2.place(x=595,y=57.5)
+    button2.place(x=595, y=57.5)
 
     backwards = tk.Button(ui2,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
-    backwards.place(x=595,y=260)
+    backwards.place(x=595, y=260)
 
 
-    # ui2.bind('<Motion>', motion)
+    # ui2.bind('<posMouse>', posMouse)
     ui2.mainloop()
 
 
@@ -94,27 +94,27 @@ def UI1():
 
     #text
     Enter = tk.Label(ui1, text="Enter Location:")
-    Enter.place(x=315,y=274)
+    Enter.place(x=315, y=274)
 
     #textBox - place
     box_area = tk.Entry(ui1, width=15)
-    box_area.insert(0,"Area...")
+    box_area.insert(0, "Area...")
     box_area.focus_set()
-    box_area.place(x=403,y=276)
+    box_area.place(x=403, y=276)
     box_area.bind("<Button-1>", lambda a: box_area.delete(0, tk.END))
 
     #textBox - country
     box_county = tk.Entry(ui1, width=15)
-    box_county.insert(0,"Country...")
+    box_county.insert(0, "Country...")
     box_county.focus_set()
-    box_county.place(x=504,y=276)
+    box_county.place(x=504, y=276)
     box_county.bind("<Button-1>", lambda a: box_county.delete(0, tk.END))
 
     #button
     comment = tk.Button(ui1,height=1, width=12, text="Enter", command = lambda: toUiTwo(box_area,box_county,ui1))
-    comment.place(x=605,y=273)
+    comment.place(x=605, y=273)
 
-    # ui1.bind('<Motion>', motion)
+    # ui1.bind('<posMouse>', posMouse)
     ui1.mainloop()
 
 #/------------------------/ Main /------------------------/
