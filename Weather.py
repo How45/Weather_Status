@@ -9,9 +9,9 @@ class WeatherStats:
     def __init__(self, name):
         self.City = name
 
-    def get_Location(name):
+    def get_Location(self):
         geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
-        l = geolocator.geocode(name)
+        l = geolocator.geocode(self.City)
 
         return l.latitude, l.longitude
 
@@ -25,31 +25,35 @@ class WeatherStats:
                 if i == r:
                     del data[i]
 
-class menu:
-    def get_input(box):
-        string = box.get()
-        print(string)
-        return
+def toUiTwo(box, win): # This will need to change scence
+    name = box.get()
+    win.destroy()
 
-    def table():
-        win = tk.Tk()
-        win.geometry("700x300")
+    wStats = WeatherStats(name)
+    UI2(wStats)
 
-        #Creating a text box widget
-        box = tk.Entry(win, width=15,text="City")
-        box.focus_set()
-        box.place(x=0,y=0)
+def UI2(wStats):
+    print("Show UI 2")
 
-        #Create a button for Comment
-        comment = tk.Button(win,height=1, width=12, text="Enter", command = lambda: menu.get_input(box))
-        comment.place(x=0,y=20)
+    print(wStats.get_Location())
 
-        win.destroy
-        win.mainloop()
+def UI1():
+    win = tk.Tk()
+    win.geometry("700x300")
+
+    #Creating a text box widget
+    box = tk.Entry(win, width=15,text="City")
+    box.focus_set()
+    box.place(x=0,y=0)
+
+    #Create a button for Comment
+    comment = tk.Button(win,height=1, width=12, text="Enter", command = lambda: toUiTwo(box,win))
+    comment.place(x=0,y=20)
+
+    win.mainloop()
 
 def main():
-    t = menu()
-    t.table()
+    UI1()
 
     # lat, lon = get_Location("Cambridge")
     # get_Data(lat, lon)
