@@ -18,14 +18,14 @@ class WeatherStats:
         print(a)
 
         l = geolocator.geocode(a)
-        print("Found?")
+        #print("Found?")
 
         self.long = l.longitude
         self.lanti = l.latitude
 
         area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(self.lanti,self.long))
         data = json.loads(area.read().decode())
-        print(data)
+        #print(data)
 
         remove = ["dt","id","cod"]
         for i in list(data):
@@ -65,9 +65,13 @@ def UI2(wStats): # Main Change
     w.pack
 
     backwards = tk.Button(ui2,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
-    backwards.place(x=0,y=0)
+    backwards.place(x=605,y=273)
 
     ui2.mainloop()
+
+# def motion(event):
+#     x, y = event.x, event.y
+#     print('{}, {}'.format(x, y))
 
 def UI1():
     #UI1 Start
@@ -76,25 +80,28 @@ def UI1():
     ui1.title("UI1 Window")
 
     #text
-    Enter = tk.Label(ui1,text="Enter Location:")
-    Enter.place(x=0,y=0)
+    Enter = tk.Label(ui1, text="Enter Location:")
+    Enter.place(x=315,y=274)
 
     #textBox - place
     box_area = tk.Entry(ui1, width=15)
     box_area.insert(0,"Area...")
     box_area.focus_set()
-    box_area.place(x=85,y=0)
+    box_area.place(x=403,y=276)
+    box_area.bind("<Button-1>", lambda a: box_area.delete(0, tk.END))
 
     #textBox - country
     box_county = tk.Entry(ui1, width=15)
     box_county.insert(0,"Country...")
     box_county.focus_set()
-    box_county.place(x=183,y=0)
+    box_county.place(x=504,y=276)
+    box_county.bind("<Button-1>", lambda a: box_county.delete(0, tk.END))
 
     #button
     comment = tk.Button(ui1,height=1, width=12, text="Enter", command = lambda: toUiTwo(box_area,box_county,ui1))
-    comment.place(x=85,y=22)
+    comment.place(x=605,y=273)
 
+    # ui1.bind('<Motion>', motion)
     ui1.mainloop()
 
 #/------------------------/ Main /------------------------/
