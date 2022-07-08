@@ -3,50 +3,73 @@ import urllib.request
 from geopy.geocoders import Nominatim
 import tkinter as tk
 
-from matplotlib.pyplot import text
 
-def get_Location(name):
-    geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
-    l = geolocator.geocode(name)
+#/------------------------/ WeatherStats Class /------------------------/
+class WeatherStats:
+    def __init__(self, name):
+        self.City = name
 
-    return l.latitude, l.longitude
+    def get_Location(self):
+        return self.long, self.lanti
 
-def get_Data(lat, lon):
-    area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(lat,lon)) # Cambridge
-    data = json.loads(area.read().decode())
+    def form_Data(self):
+        geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
+        l = geolocator.geocode(self.City)
 
-    remove = ["dt","id","cod"]
-    for i in list(data):
-        for r in remove:
-            if i == r:
-                del data[i]
+        self.long = l.longitude
+        self.lanti = l.latitude
 
-def get_input(box):
-   string = box.get()
-   print(string)
+        area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(self.lanti,self.long))
+        data = json.loads(area.read().decode())
 
-def table():
-    win = tk.Tk()
-    win.geometry("700x300")
+        remove = ["dt","id","cod"]
+        for i in list(data):
+            for r in remove:
+                if i == r:
+                    del data[i]
 
-    #Creating a text box widget
-    box = tk.Entry(win, width=15,text="City")
+        # Setup self_Stuff
+
+#/------------------------/ UI Function /------------------------/
+def toUiTwo(box, ui1): # This will need to change scence
+    name = box.get()
+    ui1.destroy()
+
+    wStats = WeatherStats(name)
+    UI2(wStats)
+
+def UI2(wStats): # Main Change
+    #Class setup
+    wStats.form_Data()
+
+    #UI2 Start
+    ui2 = tk.Tk()
+    ui2.geometry("700x300")
+    ui2.title("UI2 Window")
+
+    ui2.mainloop()
+
+def UI1():
+    #UI1 Start
+    ui1 = tk.Tk()
+    ui1.geometry("700x300")
+    ui1.title("UI1 Window")
+
+    #textBox
+    box = tk.Entry(ui1, width=15,text="City")
     box.focus_set()
     box.place(x=0,y=0)
 
-    #Create a button for Comment
-    comment = tk.Button(win,height=1, width=12, text="Enter", command=lambda: get_input(box))
+    #button
+    comment = tk.Button(ui1,height=1, width=12, text="Enter", command = lambda: toUiTwo(box,ui1))
     comment.place(x=0,y=20)
 
-    win.mainloop()
+    ui1.mainloop()
 
+#/------------------------/ Main /------------------------/
 def main():
-    table()
+    UI1()
 
-    # lat, lon = get_Location("Cambridge")
-    # get_Data(lat, lon)
-
-    # Delete Unessary jason rows
     # Weather is in a list so might need to do a loop for that
     # OpenWeatherAPI uses KELVIN
 
