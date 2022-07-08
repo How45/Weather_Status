@@ -28,6 +28,8 @@ class WeatherStats:
                 if i == r:
                     del data[i]
 
+        # Setup self_Stuff
+
 #/------------------------/ UI Function /------------------------/
 def toUiTwo(box, ui1): # This will need to change scence
     name = box.get()
@@ -36,10 +38,9 @@ def toUiTwo(box, ui1): # This will need to change scence
     wStats = WeatherStats(name)
     UI2(wStats)
 
-def UI2(wStats):
+def UI2(wStats): # Main Change
     #Class setup
     wStats.form_Data()
-    print(wStats.get_Location())
 
     #UI2 Start
     ui2 = tk.Tk()
