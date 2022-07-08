@@ -10,13 +10,16 @@ class WeatherStats:
         self.City = name
 
     def get_Location(self):
+        return self.long, self.lanti
+
+    def form_Data(self):
         geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
         l = geolocator.geocode(self.City)
 
-        return l.latitude, l.longitude
+        self.long = l.longitude
+        self.lanti = l.latitude
 
-    def get_Data(lat, lon):
-        area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(lat,lon))
+        area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(self.lanti,self.long))
         data = json.loads(area.read().decode())
 
         remove = ["dt","id","cod"]
@@ -35,6 +38,7 @@ def toUiTwo(box, win): # This will need to change scence
 def UI2(wStats):
     print("Show UI 2")
 
+    wStats.form_Data()
     print(wStats.get_Location())
 
 def UI1():
