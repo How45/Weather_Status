@@ -71,18 +71,33 @@ def UI2(wStats): # Main Change
     visualsBackg.place(x=10, y=10)
 
     #button1
-    button1 = tk.Button(ui2,height=1, width=12, text="button1") # Hight is 1 = 19, width 10 = 79
-    button1.place(x=595, y=20)
+    button1 = tk.Button(buttonBackg,height=1, width=12, text="button1") # Hight is 1 = 19, width 10 = 79
+    button1.place(x=5, y=5)
 
     #button2
-    button2 = tk.Button(ui2,height=1, width=12, text="button2")
-    button2.place(x=595, y=57.5)
+    button2 = tk.Button(buttonBackg,height=1, width=12, text="button2")
+    button2.place(x=5, y=42)
 
-    backwards = tk.Button(ui2,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
-    backwards.place(x=595, y=260)
+      #button3
+    button3 = tk.Button(buttonBackg,height=1, width=12, text="button2")
+    button3.place(x=5, y=79)
 
+      #button4
+    button4 = tk.Button(buttonBackg,height=1, width=12, text="button2")
+    button4.place(x=5, y=116)
 
-    # ui2.bind('<posMouse>', posMouse)
+      #button5
+    button5 = tk.Button(buttonBackg,height=1, width=12, text="button2")
+    button5.place(x=5, y=153)
+
+          #button6
+    button6 = tk.Button(buttonBackg,height=1, width=12, text="button2")
+    button6.place(x=5, y=190)
+
+    backwards = tk.Button(buttonBackg,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
+    backwards.place(x=5, y=252)
+
+    # ui2.bind('<Motion>', posMouse)
     ui2.mainloop()
 
 
@@ -114,7 +129,7 @@ def UI1():
     comment = tk.Button(ui1,height=1, width=12, text="Enter", command = lambda: toUiTwo(box_area,box_county,ui1))
     comment.place(x=605, y=273)
 
-    # ui1.bind('<posMouse>', posMouse)
+    # ui1.bind('<Motion>', posMouse)
     ui1.mainloop()
 
 #/------------------------/ Main /------------------------/
