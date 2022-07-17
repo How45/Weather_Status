@@ -10,7 +10,7 @@ class WeatherStats:
         self.country = country
 
     def get_Location(self):
-        return self.lanti, self.long
+        return self.lan, self.lon
 
     def form_Data(self):
         geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
@@ -20,18 +20,40 @@ class WeatherStats:
         l = geolocator.geocode(place)
         # print("Found?")
 
-        self.long = l.longitude
-        self.lanti = l.latitude
+        self.lon = l.longitude
+        self.lan = l.latitude
 
-        area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&appid=05981c208153f8dbbd376121b045ddc4".format(self.lanti,self.long))
+        #area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&units=metric&appid=17c432120e10afde68589219f4b8c71d".format(self.lan,self.lon))
+        area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat=52.1951&lon=0.1313&units=metric&appid=17c432120e10afde68589219f4b8c71d")
         data = json.loads(area.read().decode())
-        # print(data)
 
-        remove = ["dt","id","cod"]
-        for i in list(data):
-            for r in remove:
-                if i == r:
-                    del data[i]
+
+        for keys in data:
+            if keys == "weather":
+                for list in data[keys]: # This is a key: list(key,value)
+                    for key, value in list.items():
+                        if key == "main":
+                            self.main = value
+                        elif key == "description":
+                            self.description = value
+            if keys == "main":
+                for key, value in data[keys]:
+                    match key:
+                        case "temp":
+                            self.temp = value
+                        case "feels_like":
+                            self.feel = value
+                        case "temp_min":
+                            self.min = value
+                        case "temp_max":
+                            self.max = value
+            break
+
+        # remove = ["dt","id","cod"]
+        # for i in list(data):
+        #     for r in remove:
+        #         if i == r:
+        #             del data[i]
 
         # Setup self_Stuff
 
@@ -54,20 +76,20 @@ def posMouse(event):
 
 #/------------------------/ UI /------------------------/
 def UI2(wStats): # Main Change
+
     # Class setup
     wStats.form_Data()
-
-    # print(wStats.get_Location())
 
     #UI2 Start
     ui2 = tk.Tk()
     ui2.geometry("700x300")
     ui2.title("UI2 Window")
+    ui2.configure(background='black')
 
-    buttonBackg = tk.Frame(ui2,height=283, width=105, relief=tk.SUNKEN, borderwidth = 1, bg = "#DCDCDC")
+    buttonBackg = tk.Frame(ui2,height=283, width=105, relief=tk.SUNKEN, borderwidth = 1, bg = "#2B2E25")
     buttonBackg.place(x=589, y=10)
     # /---/
-    visualsBackg = tk.Frame(ui2,height=282, width=500, relief=tk.SUNKEN, borderwidth = 1, bg = "#DCDCDC")
+    visualsBackg = tk.Frame(ui2,height=283, width=500, relief=tk.SUNKEN, borderwidth = 1, bg = "#2B2E25")
     visualsBackg.place(x=10, y=10)
 
     #button1
@@ -78,24 +100,10 @@ def UI2(wStats): # Main Change
     button2 = tk.Button(buttonBackg,height=1, width=12, text="button2")
     button2.place(x=5, y=42)
 
-      #button3
-    button3 = tk.Button(buttonBackg,height=1, width=12, text="button2")
-    button3.place(x=5, y=79)
-
-      #button4
-    button4 = tk.Button(buttonBackg,height=1, width=12, text="button2")
-    button4.place(x=5, y=116)
-
-      #button5
-    button5 = tk.Button(buttonBackg,height=1, width=12, text="button2")
-    button5.place(x=5, y=153)
-
-          #button6
-    button6 = tk.Button(buttonBackg,height=1, width=12, text="button2")
-    button6.place(x=5, y=190)
-
     backwards = tk.Button(buttonBackg,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
     backwards.place(x=5, y=252)
+
+    # Max x 5 y 190 (+37)
 
     # ui2.bind('<Motion>', posMouse)
     ui2.mainloop()
