@@ -12,6 +12,15 @@ class WeatherStats:
     def get_Location(self):
         return self.lan, self.lon
 
+    def get_temp(self):
+        return self.temp, self.feel, self.min, self.max
+
+    def get_pressure(self):
+        return self.pressure
+
+    def get_humidity(self):
+        return self.humidity
+
     def form_Data(self):
         geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
         place = self.area,self.country
@@ -27,45 +36,51 @@ class WeatherStats:
         area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat=52.1951&lon=0.1313&units=metric&appid=17c432120e10afde68589219f4b8c71d")
         data = json.loads(area.read().decode())
 
+        remove = ["dt","id","cod"]
+        for i in list(data):
+            for r in remove:
+                if i == r:
+                    del data[i]
 
         for keys in data:
             if keys == "weather":
-                for list in data[keys]: # This is a key: list(key,value)
-                    for key, value in list.items():
+                for li in data[keys]: # This is a key: list(key,value)
+                    for key, value in li.items():
                         if key == "main":
                             self.main = value
                         elif key == "description":
                             self.description = value
             if keys == "main":
                 for key, value in data[keys]:
-                    match key:
-                        case "temp":
-                            self.temp = value
-                        case "feels_like":
-                            self.feel = value
-                        case "temp_min":
-                            self.min = value
-                        case "temp_max":
-                            self.max = value
+                    if key == "temp":
+                        self.temp = value
+                    elif key == "feels_like":
+                        self.feel = value
+                    elif key == "temp_min":
+                        self.min = value
+                    elif key == "temp_max":
+                        self.max = value
+                    elif key == "pressure":
+                        self.pressure = value
+                    elif key == "humidity":
+                        self.humidity = value
             break
-
-        # remove = ["dt","id","cod"]
-        # for i in list(data):
-        #     for r in remove:
-        #         if i == r:
-        #             del data[i]
-
+        print(data)
         # Setup self_Stuff
 
-#/------------------------/ Helper Function /------------------------/
 def toUiTwo(area,country, ui1): # This will need to change scence
     name = area.get()
     area = country.get()
     ui1.destroy()
 
     wStats = WeatherStats(name,area)
-    UI2(wStats)
+    wStats.form_Data()
 
+    temp, feel, min, max = wStats.get_temp()
+
+    UI2()
+
+#/------------------------/ Helper Function /------------------------/
 def toUiOne(ui2):
     ui2.destroy()
     UI1()
@@ -75,21 +90,20 @@ def posMouse(event):
     print('{}, {}'.format(x, y))
 
 #/------------------------/ UI /------------------------/
-def UI2(wStats): # Main Change
+def UI2(): # Main Change
 
     # Class setup
-    wStats.form_Data()
 
     #UI2 Start
     ui2 = tk.Tk()
     ui2.geometry("700x300")
     ui2.title("UI2 Window")
-    ui2.configure(background='black')
+    ui2.configure(background="black")
 
-    buttonBackg = tk.Frame(ui2,height=283, width=105, relief=tk.SUNKEN, borderwidth = 1, bg = "#2B2E25")
+    buttonBackg = tk.Frame(ui2,height=283, width=105, borderwidth = 1, bg = "#2B2E25")
     buttonBackg.place(x=589, y=10)
     # /---/
-    visualsBackg = tk.Frame(ui2,height=283, width=500, relief=tk.SUNKEN, borderwidth = 1, bg = "#2B2E25")
+    visualsBackg = tk.Frame(ui2,height=283, width=500, borderwidth = 1, background = "#2B2E25")
     visualsBackg.place(x=10, y=10)
 
     #button1
