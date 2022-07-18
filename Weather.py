@@ -2,8 +2,6 @@ import json
 import urllib.request
 from geopy.geocoders import Nominatim
 import tkinter as tk
-from svglib.svglib import svg2rlg
-from reportlab.graphics import renderPDF, renderPM
 from PIL import Image, ImageTk
 
 #/------------------------/ WeatherStats Class /------------------------/
@@ -102,7 +100,7 @@ def UI2(s): # Main Change
     buttonBackg = tk.Frame(ui2,height=283, width=105, borderwidth = 1, bg = "#2B2E25")
     buttonBackg.place(x=589, y=10)
     # /---/
-    visualsBackg = tk.Frame(ui2,height=283, width=500, borderwidth = 1, background = "#2B2E25")
+    visualsBackg = tk.Frame(ui2,height=283, width=500, borderwidth = 1, bg = "#2B2E25")
     visualsBackg.place(x=10, y=10)
 
     #button1
@@ -117,14 +115,14 @@ def UI2(s): # Main Change
     backwards.place(x=5, y=252)
     # Max x 5 y 190 (+37)
 
-    from PIL import Image,ImageTk
-    frame = tk.Frame(visualsBackg, height = 0, width = 0)
-    frame.place(x=0,y=0)
+
+    frame = tk.Frame(visualsBackg)
+    frame.place(x=0,y=0) # position of the icon will be
 
     icon = (Image.open("Icons\\001lighticons-01.png"))
-    rez_img = icon.resize((200,200), Image.ANTIALIAS)
+    rez_img = icon.resize((200,200), Image.ANTIALIAS) # icon size change
     img = ImageTk.PhotoImage(rez_img)
-    label = tk.Label(frame, image = img,bg="#2B2E25")
+    label = tk.Label(frame, height=76, width=72 ,image = img,bg = "#2B2E25") # this changes the isze of the box the image is in
     label.pack()
 
     # ui2.bind('<Motion>', posMouse)
