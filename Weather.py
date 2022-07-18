@@ -2,6 +2,9 @@ import json
 import urllib.request
 from geopy.geocoders import Nominatim
 import tkinter as tk
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPDF, renderPM
+from PIL import Image, ImageTk
 
 #/------------------------/ WeatherStats Class /------------------------/
 class WeatherStats:
@@ -9,21 +12,9 @@ class WeatherStats:
         self.area = name
         self.country = country
 
-    def get_Location(self):
-        return self.lan, self.lon
-
-    def get_temp(self):
-        return self.temp, self.feel, self.min, self.max
-
-    def get_pressure(self):
-        return self.pressure
-
-    def get_humidity(self):
-        return self.humidity
-
     def form_Data(self):
         geolocator = Nominatim(user_agent="MyApp") # Initialize Nominatim API
-        place = self.area,self.country
+        place = self.area, self.country
 
 
         l = geolocator.geocode(place)
@@ -51,7 +42,7 @@ class WeatherStats:
                         elif key == "description":
                             self.description = value
             if keys == "main":
-                for key, value in data[keys]:
+                for key, value in data[keys].items():
                     if key == "temp":
                         self.temp = value
                     elif key == "feels_like":
@@ -64,9 +55,19 @@ class WeatherStats:
                         self.pressure = value
                     elif key == "humidity":
                         self.humidity = value
-            break
-        print(data)
         # Setup self_Stuff
+
+    def get_Location(self):
+        return self.lan, self.lon
+
+    def get_temp(self):
+        return self.temp, self.feel, self.min, self.max
+
+    def get_pressure(self):
+        return self.pressure
+
+    def get_humidity(self):
+        return self.humidity
 
 def toUiTwo(area,country, ui1): # This will need to change scence
     name = area.get()
@@ -76,9 +77,7 @@ def toUiTwo(area,country, ui1): # This will need to change scence
     wStats = WeatherStats(name,area)
     wStats.form_Data()
 
-    temp, feel, min, max = wStats.get_temp()
-
-    UI2()
+    UI2(wStats)
 
 #/------------------------/ Helper Function /------------------------/
 def toUiOne(ui2):
@@ -88,11 +87,11 @@ def toUiOne(ui2):
 def posMouse(event):
     x, y = event.x, event.y
     print('{}, {}'.format(x, y))
-
 #/------------------------/ UI /------------------------/
-def UI2(): # Main Change
+def UI2(s): # Main Change
 
     # Class setup
+    temp, feel, min, max = s.get_temp()
 
     #UI2 Start
     ui2 = tk.Tk()
@@ -116,8 +115,17 @@ def UI2(): # Main Change
 
     backwards = tk.Button(buttonBackg,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
     backwards.place(x=5, y=252)
-
     # Max x 5 y 190 (+37)
+
+    from PIL import Image,ImageTk
+    frame = tk.Frame(visualsBackg, height = 0, width = 0)
+    frame.place(x=0,y=0)
+
+    icon = (Image.open("Icons\\001lighticons-01.png"))
+    rez_img = icon.resize((200,200), Image.ANTIALIAS)
+    img = ImageTk.PhotoImage(rez_img)
+    label = tk.Label(frame, image = img,bg="#2B2E25")
+    label.pack()
 
     # ui2.bind('<Motion>', posMouse)
     ui2.mainloop()
@@ -128,6 +136,7 @@ def UI1():
     ui1 = tk.Tk()
     ui1.geometry("700x300")
     ui1.title("UI1 Window")
+    ui1.resizable(width=False, height=False)
 
     #text
     Enter = tk.Label(ui1, text="Enter Location:")
