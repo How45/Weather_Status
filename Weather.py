@@ -93,72 +93,80 @@ def UI2(s): # Main Change
 
     #UI2 Start
     ui2 = tk.Tk()
-    ui2.geometry("700x300")
+    ui2.geometry("350x585")
     ui2.title("UI2 Window")
     ui2.configure(background="black")
+    ui1.resizable(width=False, height=False)
 
-    buttonBackg = tk.Frame(ui2,height=283, width=105, borderwidth = 1, bg = "#2B2E25")
-    buttonBackg.place(x=589, y=10)
+    # buttonBackg = tk.Frame(ui2,height=283, width=105, borderwidth = 1, bg = "#2B2E25")
+    # buttonBackg.place(x=589, y=10)
     # /---/
-    visualsBackg = tk.Frame(ui2,height=283, width=500, borderwidth = 1, bg = "#2B2E25")
+    visualsBackg = tk.Frame(ui2,height=565, width=330, borderwidth = 1, bg = "#2B2E25")
     visualsBackg.place(x=10, y=10)
 
-    #button1
-    button1 = tk.Button(buttonBackg,height=1, width=12, text="button1") # Hight is 1 = 19, width 10 = 79
-    button1.place(x=5, y=5)
+    # #button1
+    # button1 = tk.Button(buttonBackg,height=1, width=12, text="button1") # Hight is 1 = 19, width 10 = 79
+    # button1.place(x=5, y=5)
 
-    #button2
-    button2 = tk.Button(buttonBackg,height=1, width=12, text="button2")
-    button2.place(x=5, y=42)
+    # #button2
+    # button2 = tk.Button(buttonBackg,height=1, width=12, text="button2")
+    # button2.place(x=5, y=42)
 
-    backwards = tk.Button(buttonBackg,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
-    backwards.place(x=5, y=252)
-    # Max x 5 y 190 (+37)
+    # backwards = tk.Button(buttonBackg,height=1, width=12, text="Go Back", command = lambda: toUiOne(ui2))
+    # backwards.place(x=5, y=252)
+    # # Max x 5 y 190 (+37)
 
-
+    # ICON section
     frame = tk.Frame(visualsBackg)
-    frame.place(x=0,y=0) # position of the icon will be
+    frame.place(x=109,y=50) # position of the icon will be
 
     icon = (Image.open("Icons\\001lighticons-01.png"))
     rez_img = icon.resize((200,200), Image.ANTIALIAS) # icon size change
     img = ImageTk.PhotoImage(rez_img)
+
     label = tk.Label(frame, height=76, width=72 ,image = img,bg = "#2B2E25") # this changes the isze of the box the image is in
     label.pack()
-
-    # ui2.bind('<Motion>', posMouse)
+    # /-----------------------------/-----------------------------/
+    ui2.bind('<Motion>', posMouse)
     ui2.mainloop()
 
 
 def UI1():
     #UI1 Start
     ui1 = tk.Tk()
-    ui1.geometry("700x300")
+    ui1.geometry("350x585")
     ui1.title("UI1 Window")
     ui1.resizable(width=False, height=False)
 
+    #Title
+    title = tk.Label(ui1, text="Weather")
+    title.config(font=("Ariel", 40))
+    title.place(x=80, y=150.5)
+
     #text
     Enter = tk.Label(ui1, text="Enter Location:")
-    Enter.place(x=315, y=274)
+    Enter.config(font=("Ariel", 13))
+    Enter.place(x=116, y=242.5)
 
     #textBox - place
-    box_area = tk.Entry(ui1, width=15)
+    box_area = tk.Entry(ui1, width=18)
     box_area.insert(0, "Area...")
     box_area.focus_set()
-    box_area.place(x=403, y=276)
+    box_area.place(x=117, y=292.5)
     box_area.bind("<Button-1>", lambda a: box_area.delete(0, tk.END))
 
     #textBox - country
-    box_county = tk.Entry(ui1, width=15)
+    box_county = tk.Entry(ui1, width=18)
     box_county.insert(0, "Country...")
     box_county.focus_set()
-    box_county.place(x=504, y=276)
+    box_county.place(x=117, y=342.5)
     box_county.bind("<Button-1>", lambda a: box_county.delete(0, tk.END))
 
     #button
     comment = tk.Button(ui1,height=1, width=12, text="Enter", command = lambda: toUiTwo(box_area,box_county,ui1))
-    comment.place(x=605, y=273)
+    comment.place(x=123, y=382.5)
 
-    # ui1.bind('<Motion>', posMouse)
+    #ui1.bind('<Motion>', posMouse)
     ui1.mainloop()
 
 #/------------------------/ Main /------------------------/
