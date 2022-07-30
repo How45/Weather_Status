@@ -90,13 +90,14 @@ def UI2(s): # Main Change
 
     # Class setup
     temp, feel, min, max = s.get_temp()
+    Imgtemp = str(int(temp))+"°C"
 
     #UI2 Start
     ui2 = tk.Tk()
     ui2.geometry("350x585")
     ui2.title("UI2 Window")
     ui2.configure(background="black")
-    ui1.resizable(width=False, height=False)
+    ui2.resizable(width=False, height=False)
 
     # buttonBackg = tk.Frame(ui2,height=283, width=105, borderwidth = 1, bg = "#2B2E25")
     # buttonBackg.place(x=589, y=10)
@@ -116,18 +117,21 @@ def UI2(s): # Main Change
     # backwards.place(x=5, y=252)
     # # Max x 5 y 190 (+37)
 
+    text = tk.Label(visualsBackg,font=("font/FallingSky-JKwK.otf",60), text=Imgtemp,bg = "#2B2E25")
+    text.place(x=70,y=100)
+
     # ICON section
     frame = tk.Frame(visualsBackg)
-    frame.place(x=109,y=50) # position of the icon will be
+    frame.place(x=103.5,y=210) # position of the icon will be
 
     icon = (Image.open("Icons\\001lighticons-01.png"))
-    rez_img = icon.resize((200,200), Image.ANTIALIAS) # icon size change
+    rez_img = icon.resize((250,250), Image.ANTIALIAS) # icon size change
     img = ImageTk.PhotoImage(rez_img)
 
-    label = tk.Label(frame, height=76, width=72 ,image = img,bg = "#2B2E25") # this changes the isze of the box the image is in
+    label = tk.Label(frame, height=100, width=100 ,image = img,bg = "#2B2E25") # this changes the size of the box the image is in
     label.pack()
     # /-----------------------------/-----------------------------/
-    ui2.bind('<Motion>', posMouse)
+    # i2.bind('<Motion>', posMouse)
     ui2.mainloop()
 
 
