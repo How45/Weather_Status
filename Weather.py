@@ -16,13 +16,12 @@ class WeatherStats:
 
 
         l = geolocator.geocode(place)
-        # print("Found?")
 
         self.lon = l.longitude
         self.lan = l.latitude
 
-        #area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&units=metric&appid=17c432120e10afde68589219f4b8c71d".format(self.lan,self.lon))
-        area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat=52.1951&lon=0.1313&units=metric&appid=17c432120e10afde68589219f4b8c71d")
+        area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat={}&lon={}&units=metric&appid=17c432120e10afde68589219f4b8c71d".format(self.lan,self.lon))
+        #area = urllib.request.urlopen("https://api.openweathermap.org/data/2.5/weather?lat=52.1951&lon=0.1313&units=metric&appid=17c432120e10afde68589219f4b8c71d")
         data = json.loads(area.read().decode())
 
         remove = ["dt","id","cod"]
@@ -37,8 +36,12 @@ class WeatherStats:
                     for key, value in li.items():
                         if key == "main":
                             self.main = value
+                        elif key == "id":
+                            self.idWeather = value
                         elif key == "description":
                             self.description = value
+                        elif key == "icon":
+                            self.idcon = value
             if keys == "main":
                 for key, value in data[keys].items():
                     if key == "temp":
@@ -66,6 +69,9 @@ class WeatherStats:
 
     def get_humidity(self):
         return self.humidity
+
+    def get_idIcon(self):
+        return "Icons\\"+self.idcon+".png"
 
 def toUiTwo(area,country, ui1): # This will need to change scence
     name = area.get()
@@ -124,8 +130,11 @@ def UI2(s): # Main Change
     frame = tk.Frame(visualsBackg)
     frame.place(x=103.5,y=210) # position of the icon will be
 
-    icon = (Image.open("Icons\\001lighticons-01.png"))
-    rez_img = icon.resize((250,250), Image.ANTIALIAS) # icon size change
+    icon = (Image.open(s.get_idIcon()))
+    if s.get_idIcon() == "Icons\\01d.png" or s.get_idIcon() == "Icons\\13d.png" or s.get_idIcon() == "Icons\\50d.png":
+        rez_img = icon.resize((200,200), Image.ANTIALIAS) # icon size change
+    else:
+        rez_img = icon.resize((140,140), Image.ANTIALIAS) # icon size change
     img = ImageTk.PhotoImage(rez_img)
 
     label = tk.Label(frame, height=100, width=100 ,image = img,bg = "#2B2E25") # this changes the size of the box the image is in
