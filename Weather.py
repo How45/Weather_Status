@@ -96,6 +96,7 @@ def UI2(s): # Main Change
 
     # Class setup
     temp, feel, min, max = s.get_temp()
+    print(temp, feel, min, max)
     Imgtemp = str(int(temp))+"°C"
 
     #UI2 Start
@@ -123,21 +124,24 @@ def UI2(s): # Main Change
     # backwards.place(x=5, y=252)
     # # Max x 5 y 190 (+37)
 
-    text = tk.Label(visualsBackg,font=("font/FallingSky-JKwK.otf",60), text=Imgtemp,bg = "#2B2E25")
+    text = tk.Label(visualsBackg,font=("font/FallingSky-JKwK.otf",60), text=Imgtemp,bg = "#FFFFFF") # 2B2E25
     text.place(x=70,y=100)
 
     # ICON section
     frame = tk.Frame(visualsBackg)
     frame.place(x=103.5,y=210) # position of the icon will be
 
-    icon = (Image.open(s.get_idIcon()))
-    if s.get_idIcon() == "Icons\\01d.png" or s.get_idIcon() == "Icons\\13d.png" or s.get_idIcon() == "Icons\\50d.png":
-        rez_img = icon.resize((200,200), Image.ANTIALIAS) # icon size change
-    else:
-        rez_img = icon.resize((140,140), Image.ANTIALIAS) # icon size change
-    img = ImageTk.PhotoImage(rez_img)
+    try:
+        icon = (Image.open(s.get_idIcon()))
+        if s.get_idIcon() == "Icons\\01d.png" or s.get_idIcon() == "Icons\\13d.png" or s.get_idIcon() == "Icons\\50d.png":
+            rez_img = icon.resize((200,200), Image.ANTIALIAS) # icon size change
+        else:
+            rez_img = icon.resize((140,140), Image.ANTIALIAS) # icon size change
+        img = ImageTk.PhotoImage(rez_img)
+    except:
+        print("ERROR: No night img!")
 
-    label = tk.Label(frame, height=100, width=100 ,image = img,bg = "#2B2E25") # this changes the size of the box the image is in
+    label = tk.Label(frame, height=100, width=100 ,image = img,bg = "#FFFFFF") # this changes the size of the box the image is in
     label.pack()
     # /-----------------------------/-----------------------------/
     # i2.bind('<Motion>', posMouse)
@@ -151,30 +155,27 @@ def UI1():
     ui1.title("UI1 Window")
     ui1.resizable(width=False, height=False)
 
+
     #Title
     title = tk.Label(ui1, text="Weather")
     title.config(font=("Ariel", 40))
     title.place(x=80, y=150.5)
-
     #text
     Enter = tk.Label(ui1, text="Enter Location:")
     Enter.config(font=("Ariel", 13))
     Enter.place(x=116, y=242.5)
-
     #textBox - place
     box_area = tk.Entry(ui1, width=18)
     box_area.insert(0, "Area...")
     box_area.focus_set()
     box_area.place(x=117, y=292.5)
     box_area.bind("<Button-1>", lambda a: box_area.delete(0, tk.END))
-
     #textBox - country
     box_county = tk.Entry(ui1, width=18)
     box_county.insert(0, "Country...")
     box_county.focus_set()
     box_county.place(x=117, y=342.5)
     box_county.bind("<Button-1>", lambda a: box_county.delete(0, tk.END))
-
     #button
     comment = tk.Button(ui1,height=1, width=12, text="Enter", command = lambda: toUiTwo(box_area,box_county,ui1))
     comment.place(x=123, y=382.5)
